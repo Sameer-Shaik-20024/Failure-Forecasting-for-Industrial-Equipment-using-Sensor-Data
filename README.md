@@ -1,1 +1,1 @@
-# Failure-Forecasting-for-Industrial-Equipment-using-Sensor-Data
+# Failure Forecasting for Industrial Equipment using Sensor Data
