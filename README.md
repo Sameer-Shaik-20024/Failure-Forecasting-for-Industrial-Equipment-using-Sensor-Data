@@ -53,13 +53,6 @@ To create a comprehensive predictive maintenance solution that:
 | **Regression** | Support Vector Regression (SVR) | Test RMSE | **26.59** |
 | **Classification** | Support Vector Machine (SVM) | Test Accuracy | **88.3%** |
 
-### Model Performance Comparison:
-| Model | Test RMSE | R² Score | Performance Notes |
-|-------|-----------|----------|-------------------|
-| **SVR** | **26.59** | **0.48** | Most consistent, best generalization |
-| Random Forest | 29.95 | 0.75 | High accuracy but prone to overfitting |
-| XGBoost | 30.45 | 0.74 | Good performance, handles imbalanced data well |
-| Linear Regression | 55.62 | 0.32 | Limited by linear assumptions |
 
 ### Critical Features Identified:
 1. **Physical Core Speed (s_9)** - Primary degradation indicator
