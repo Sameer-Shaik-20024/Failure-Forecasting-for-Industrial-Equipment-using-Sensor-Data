@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 #importing necessary libraries
 import pandas as pd
 import numpy as np
@@ -21,9 +15,6 @@ np.random.seed(34)
 warnings.filterwarnings('ignore')
 
 
-# In[3]:
-
-
 #Defining features names
 
 index_names = ['unit_number', 'time_cycles']
@@ -31,8 +22,6 @@ setting_names = ['setting_1', 'setting_2', 'setting_3']
 sensor_names = ['s_{}'.format(i+1) for i in range(0,21)]
 col_names = index_names + setting_names + sensor_names
 
-
-# In[11]:
 
 
 # Importing train and validation data
@@ -44,14 +33,11 @@ dfvalid = pd.read_csv(r"D:\UH\ASSIGNMENTS-3\IEEM\CMAPSSData\test_FD001.txt", sep
 y_valid = pd.read_csv(r"D:\UH\ASSIGNMENTS-3\IEEM\CMAPSSData\RUL_FD001.txt",sep='\s+',header=None,index_col=False,names=['RUL'])
 
 
-# In[13]:
-
 
 #Contains the true Remaining Useful Life (RUL) values for the engines in the validation dataset
 y_valid
 
 
-# In[23]:
 
 
 # Creating copies of the training and validation datasets to preserve the original DataFrames.
@@ -59,7 +45,6 @@ train = dftrain.copy()
 valid = dfvalid.copy()
 
 
-# In[25]:
 
 
 # Printing the shapes of the original training and testing datasets
@@ -81,7 +66,6 @@ train
 
 # The FD001 dataset contains time series data for 100 units (turbofan engines), capturing 21 sensor readings and 3 operational settings for each unit. Each engine starts in normal operating condition at the beginning of its time series and progresses towards failure at the end. Each row in the dataset represents a snapshot of the engine's condition during a single operational cycle.
 
-# In[30]:
 
 
 # Calculating and printing the percentage of the validation dataset
@@ -89,8 +73,6 @@ train
 validation_percentage = len(valid) / (len(valid) + len(train))
 print('Percentage of the validation dataset:', round(validation_percentage * 100, 2), '%')
 
-
-# In[32]:
 
 
 # Checking for the presence of NaN values in the training dataset
@@ -105,11 +87,8 @@ if nan_values.sum() == 0:
     print('No NaN values found in the train dataset.')
 
 
-# No missing value is detected for the above dataset
-# 
-# 
+# No missing value is detected for the above dataset
 
-# In[35]:
 
 
 # Selecting the 'unit_number' and 'time_cycles' columns from the train dataset
@@ -118,8 +97,6 @@ if nan_values.sum() == 0:
 
 train.loc[:, ['unit_number', 'time_cycles']].describe()
 
-
-# In[37]:
 
 
 # Selecting all sensor columns from the train dataset
@@ -138,9 +115,7 @@ train.loc[:, 's_1':].describe().transpose()
 # - **Time Cycles**: Represents the number of cycles the engine has completed.
 # 
 # This chart allows us to quickly assess the maximum lifetime of different engines in the dataset.
-# 
 
-# In[45]:
 
 
 # Find maximum time cycles for each unit
@@ -172,9 +147,7 @@ plt.show()
 # - **KDE Curve**: Adds a smoothed line to show the estimated distribution of the data.
 # 
 # From this plot, we can observe the overall lifetime distribution of the turbofan engines and how many engines have higher or lower maximum time cycles.
-# 
 
-# In[51]:
 
 
 # Distribution of maximum time cycles for turbofan engines
@@ -188,20 +161,27 @@ plt.tight_layout()
 plt.show()
 
 
-# From the plot, we can observe that the maximum time cycles achieved by most engines typically fall between **190 and 210 cycles** before experiencing **High Pressure Compressor (HPC) failure**. This suggests that, for the majority of turbofan engines in the dataset, the lifetime before failure is concentrated in this range.
+# From the plot, we can observe that the maximum time cycles achieved by most engines typically fall between **190 and 210 cycles** before experiencing **High Pressure Compressor (HPC) failure**. This suggests that, for the majority of turbofan engines in the dataset, the lifetime before failure is concentrated in this range.
+
 # 
 
-# ### Adding the RUL (Remaining Useful Life) Column
-# 
-# In this step, we add the **RUL** (Remaining Useful Life) column to the dataset, which represents the number of remaining cycles before the engine reaches failure. The RUL for each row is calculated by subtracting the current cycle (`time_cycles`) from the maximum cycle of that specific engine.
-# 
-# - **RUL Calculation**: `RUL = max(time_cycles) - time_cycles`
-# - The **RUL** is expected to be `0` for the last recorded cycle of each engine, indicating that it has reached failure.
-# 
-# By adding the RUL column, we now have the target variable that can be used for predictive maintenance models to forecast the time remaining until failure.
+# ### Adding the RUL (Remaining Useful Life) Column
+
 # 
 
-# In[60]:
+# In this step, we add the **RUL** (Remaining Useful Life) column to the dataset, which represents the number of remaining cycles before the engine reaches failure. The RUL for each row is calculated by subtracting the current cycle (`time_cycles`) from the maximum cycle of that specific engine.
+
+# 
+
+# - **RUL Calculation**: `RUL = max(time_cycles) - time_cycles`
+
+# - The **RUL** is expected to be `0` for the last recorded cycle of each engine, indicating that it has reached failure.
+
+# 
+
+# By adding the RUL column, we now have the target variable that can be used for predictive maintenance models to forecast the time remaining until failure.
+
+# 
 
 
 def add_RUL_column(df):
@@ -223,20 +203,15 @@ def add_RUL_column(df):
     return merged
 
 
-# In[62]:
-
 
 train = add_RUL_column(train)
 
-
-# In[68]:
 
 
 # Check the first few rows of the updated dataframe
 print(train[['unit_number', 'time_cycles', 'RUL']].head())
 
-
-# In[70]:
+\
 
 
 # Get the maximum RUL for each unit (engine)
@@ -257,7 +232,6 @@ maxrul_u.head()
 # This analysis is crucial for understanding the range of engine lifetimes, which will help in predicting when an engine might fail based on its current operational state.
 # 
 
-# In[72]:
 
 
 # Plotting the maximum RUL for each engine (unit)
@@ -278,7 +252,6 @@ plt.show()
 #   - **-1** indicates a perfect negative correlation,
 #   - **0** indicates no correlation.
 
-# In[76]:
 
 
 # Plotting a heatmap with Seaborn
@@ -302,7 +275,6 @@ plt.show()
 # This analysis helps to understand which features are highly correlated with each other and help us in feature selection or engineering.
 # 
 
-# In[82]:
 
 
 import numpy as np
@@ -381,19 +353,32 @@ Sensor_dictionary = {f's_{i+1}': sensor for i, sensor in enumerate(dict_list)}
 Sensor_dictionary
 
 
-# ### Engine Components Overview
-# 
-# - **Low Pressure Compressor (LPC)**: Compresses incoming air at low pressure before it enters the high-pressure compressor.
-#   
-# - **High Pressure Compressor (HPC)**: Further compresses the air at high pressure and temperature before sending it to the combustor.
-#   
-# - **Low Pressure Turbine (LPT)**: Extracts energy from exhaust gases to drive the LPC and improve engine efficiency.
-#   
-# - **High Pressure Turbine (HPT)**: Generates mechanical energy from high-pressure exhaust gases to power the HPC and other components.
-#   
-# - **Low-Pressure Rotor (N1) and High-Pressure Rotor (N2)**: N1 drives the LPC and LPT, while N2 drives the HPC and HPT, ensuring efficient combustion and airflow.
-#   
-# - **Nozzle**: Directs exhaust gases to produce thrust, converting gas pressure into kinetic energy.
+# ### Engine Components Overview
+
+# 
+
+# - **Low Pressure Compressor (LPC)**: Compresses incoming air at low pressure before it enters the high-pressure compressor.
+
+#   
+
+# - **High Pressure Compressor (HPC)**: Further compresses the air at high pressure and temperature before sending it to the combustor.
+
+#   
+
+# - **Low Pressure Turbine (LPT)**: Extracts energy from exhaust gases to drive the LPC and improve engine efficiency.
+
+#   
+
+# - **High Pressure Turbine (HPT)**: Generates mechanical energy from high-pressure exhaust gases to power the HPC and other components.
+
+#   
+
+# - **Low-Pressure Rotor (N1) and High-Pressure Rotor (N2)**: N1 drives the LPC and LPT, while N2 drives the HPC and HPT, ensuring efficient combustion and airflow.
+
+#   
+
+# - **Nozzle**: Directs exhaust gases to produce thrust, converting gas pressure into kinetic energy.
+
 # 
 
 # # Evolution of Sensor Data with Remaining Useful Life (RUL)
@@ -572,7 +557,8 @@ df = pd.DataFrame(X_train_s, columns=['s_{}'.format(i) for i in range(1, 22)])
 df[sensor_names].hist(bins=100, figsize=(18, 16))  # bins=100 specifies 100 bins for the histogram
 
 
-# # Model Implementation: Linear Regression
+# # Model Implementation: Linear Regression
+
 # 
 
 # In[149]:
@@ -1689,14 +1675,6 @@ for train_index, test_index in cv.split(train_tm) :
     print("Error rate of test %.3f" %mean_absolute_percentage_error(y_test,y_svc_test))
     print(metrics.classification_report(y_test,y_svc_test))
 
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
 
 
 
