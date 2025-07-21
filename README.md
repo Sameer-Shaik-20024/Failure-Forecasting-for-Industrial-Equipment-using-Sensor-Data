@@ -51,7 +51,7 @@ To create a comprehensive predictive maintenance solution that:
 | Model Type | Best Algorithm | Performance Metric | Score |
 |------------|---------------|-------------------|-------|
 | **Regression** | Support Vector Regression (SVR) | Test RMSE | **26.59** |
-| **Classification** | Support Vector Machine (SVM) | Test Accuracy | **68.3%** |
+| **Classification** | Support Vector Machine (SVM) | Test Accuracy | **88.3%** |
 
 ### Model Performance Comparison:
 | Model | Test RMSE | R² Score | Performance Notes |
