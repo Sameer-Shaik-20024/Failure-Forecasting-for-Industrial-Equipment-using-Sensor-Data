@@ -1,7 +1,7 @@
 # Smart Engine Health Monitoring: Machine Learning Framework for Turbofan RUL Prediction
 **Machine Learning Framework for Aircraft Turbofan Engine RUL Prediction**
 
-This research project developed a robust machine learning framework to predict the Remaining Useful Life (RUL) of aircraft turbofan engines, enabling proactive maintenance strategies and reducing operational risks in aviation.
+This project developed a robust machine learning framework to predict the Remaining Useful Life (RUL) of aircraft turbofan engines, enabling proactive maintenance strategies and reducing operational risks in aviation.
 
 ## Objective
 To create a comprehensive predictive maintenance solution that:
